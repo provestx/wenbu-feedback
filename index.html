@@ -1,0 +1,1032 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#24533F">
+<title>稳步 · 用户反馈</title>
+<meta name="description" content="「稳步」智能鞋垫用户反馈：体验会现场与日常使用两阶段，老人版与子女版分卷。">
+<style>
+/* 布局：手机竖屏单栏，一屏一题；顶部品牌条 + 脚印进度，底部固定操作区 */
+:root{
+  --bg:#F2F5F1;          /* 浅苔灰，纸面 */
+  --surface:#FFFFFF;
+  --ink:#16241D;         /* 墨绿黑 */
+  --muted:#5B6B62;
+  --line:#D4DDD6;
+  --accent:#24533F;      /* 松绿，品牌主色 */
+  --accent-ink:#FFFFFF;
+  --accent-soft:#E1ECE5;
+  --amber:#D9902B;       /* 晨光琥珀，用于高亮与脚印 */
+  --amber-soft:#FBEFD9;
+  --good:#2F7D55; --warn:#B9771C; --bad:#B4432F;
+  --good-soft:#E2F1E8; --warn-soft:#FAEED8; --bad-soft:#F7E2DD;
+  --serif:"Songti SC","STSong","Noto Serif SC","Source Han Serif SC","Noto Serif CJK SC","SimSun",serif;
+  --sans:"PingFang SC","HarmonyOS Sans SC","MiSans","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
+  --radius:14px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#101813; --surface:#18221C; --ink:#E8EFEA; --muted:#9CAEA3; --line:#2C3A31;
+    --accent:#7FC3A0; --accent-ink:#0E1A13; --accent-soft:#1F3328;
+    --amber:#E9A94B; --amber-soft:#3A2E1B;
+    --good:#76C79A; --warn:#E3AE57; --bad:#E68673;
+    --good-soft:#1C3326; --warn-soft:#3A2E19; --bad-soft:#3D221D;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#101813; --surface:#18221C; --ink:#E8EFEA; --muted:#9CAEA3; --line:#2C3A31;
+  --accent:#7FC3A0; --accent-ink:#0E1A13; --accent-soft:#1F3328;
+  --amber:#E9A94B; --amber-soft:#3A2E1B;
+  --good:#76C79A; --warn:#E3AE57; --bad:#E68673;
+  --good-soft:#1C3326; --warn-soft:#3A2E19; --bad-soft:#3D221D;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{font-size:17px;-webkit-text-size-adjust:100%}
+html.big{font-size:20px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6;min-height:100vh;
+  padding-top:env(safe-area-inset-top,0px)}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.wrap{max-width:560px;margin:0 auto;padding-inline:18px}
+h1,h2,h3{font-family:var(--serif);font-weight:700;text-wrap:balance;margin:0}
+
+/* 顶栏 */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:10px;min-height:56px}
+.brand{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink);margin-right:auto}
+.brand b{font-family:var(--serif);font-size:1.25rem;letter-spacing:.08em}
+.brand small{color:var(--muted);font-size:.78rem;letter-spacing:.04em}
+.tool{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--line);background:var(--surface);border-radius:999px;
+  padding:6px 12px;font-size:.88rem;min-height:40px}
+.tool svg{width:18px;height:18px}
+.tool[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+
+/* 脚印进度 */
+.steps{display:flex;align-items:flex-end;gap:4px;padding-block:10px 4px;overflow:hidden}
+.steps svg{width:14px;height:22px;flex:none;color:var(--line);transition:color .3s}
+.steps svg:nth-child(odd){transform:translateY(-5px) scaleX(-1)}
+.steps svg.on{color:var(--amber)}
+.steps svg.cur{color:var(--accent)}
+.count{font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* 视图 */
+.view{padding-block:22px 140px}
+.eyebrow{font-size:.8rem;letter-spacing:.14em;color:var(--accent);font-weight:600}
+
+/* 首页 */
+.hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.hero h1{font-size:1.85rem;line-height:1.3;margin-top:4px}
+.hero p{color:var(--muted);margin:10px 0 0}
+.insoles{width:78px;flex:none}
+@media (max-width:360px){.hero h1{font-size:1.6rem}}
+.pick{margin-top:26px;display:grid;gap:12px}
+.pick h2{font-size:1.1rem;margin-top:8px}
+.choice{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--surface);border:2px solid var(--line);
+  border-radius:var(--radius);padding:16px;min-height:76px}
+.choice .ic{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent)}
+.choice .ic svg{width:26px;height:26px}
+.choice strong{display:block;font-size:1.12rem}
+.choice span{display:block;color:var(--muted);font-size:.88rem}
+.choice[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.seg .choice{flex-direction:column;align-items:flex-start;gap:4px;min-height:0}
+.meta{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:20px;color:var(--muted);font-size:.85rem}
+.meta span{display:inline-flex;align-items:center;gap:6px}
+.meta svg{width:16px;height:16px;color:var(--accent)}
+.links{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.links a{color:var(--accent);font-size:.9rem;text-underline-offset:3px}
+
+/* 题卡 */
+.q-title{font-size:1.55rem;line-height:1.35;margin-top:8px}
+.q-sub{color:var(--muted);margin:8px 0 0;font-size:.95rem}
+.opts{display:grid;gap:10px;margin-top:22px}
+.opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;min-height:60px;padding:12px 16px;
+  background:var(--surface);border:2px solid var(--line);border-radius:var(--radius);font-size:1.08rem}
+.opt .box{flex:none;width:24px;height:24px;border:2px solid var(--line);border-radius:50%;display:grid;place-items:center}
+.opt.multi .box{border-radius:6px}
+.opt[aria-checked="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.opt[aria-checked="true"] .box{background:var(--accent);border-color:var(--accent)}
+.opt[aria-checked="true"] .box::after{content:"";width:10px;height:6px;border:solid var(--accent-ink);border-width:0 0 3px 3px;transform:translateY(-2px) rotate(-45deg)}
+.opt[disabled]{opacity:.45}
+.faces{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:24px}
+.face{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 2px;border:2px solid transparent;border-radius:var(--radius);
+  background:var(--surface);color:var(--muted);font-size:.8rem;line-height:1.3;min-height:96px}
+.face svg{width:44px;height:44px}
+.face[aria-checked="true"]{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.nps{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:24px}
+.nps button{min-height:52px;border-radius:12px;border:2px solid var(--line);background:var(--surface);font-size:1.15rem;font-variant-numeric:tabular-nums}
+.nps button[aria-checked="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.ends{display:flex;justify-content:space-between;color:var(--muted);font-size:.85rem;margin-top:8px}
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:24px}
+.scale button{min-height:60px;border-radius:12px;border:2px solid var(--line);background:var(--surface);font-size:1.25rem;font-variant-numeric:tabular-nums}
+.scale button[aria-checked="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+textarea,input[type=tel],input[type=text]{width:100%;border:2px solid var(--line);border-radius:var(--radius);background:var(--surface);padding:14px;font-size:1.05rem}
+textarea{min-height:140px;resize:vertical;margin-top:22px}
+.hint{font-size:.85rem;color:var(--muted);margin-top:8px}
+.field{display:grid;gap:6px;margin-top:16px}
+.field label{font-size:.95rem;font-weight:600}
+.err{color:var(--bad);font-size:.88rem;min-height:1.4em}
+.privacy{margin-top:14px;padding:12px 14px;border-radius:12px;background:var(--accent-soft);font-size:.85rem;color:var(--muted)}
+
+/* 底部操作 */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--bg);border-top:1px solid var(--line);
+  padding-bottom:env(safe-area-inset-bottom,0px)}
+.bar .wrap{display:flex;gap:10px;padding-block:12px}
+.btn{flex:1;min-height:56px;border-radius:999px;border:2px solid var(--accent);background:var(--accent);color:var(--accent-ink);font-size:1.1rem;font-weight:600}
+.btn.ghost{flex:0 0 auto;padding-inline:20px;background:transparent;color:var(--accent)}
+.btn[disabled]{opacity:.4;cursor:not-allowed}
+
+/* 完成页 */
+.done{text-align:left}
+.done .seal{width:84px;height:84px;border-radius:50%;background:var(--accent-soft);display:grid;place-items:center;color:var(--accent);margin-bottom:16px}
+.done .seal svg{width:46px;height:46px}
+.ticket{margin-top:20px;border:1px dashed var(--accent);border-radius:var(--radius);padding:16px;background:var(--surface);display:grid;gap:8px}
+.ticket .row{display:flex;justify-content:space-between;gap:12px;font-size:.95rem}
+.ticket .row span:first-child{color:var(--muted)}
+.ticket code{font-family:ui-monospace,Menlo,monospace;font-size:1.05rem;letter-spacing:.05em}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:2px 10px;font-size:.8rem;font-weight:600;white-space:nowrap}
+.pill::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.pill.red{background:var(--bad-soft);color:var(--bad)}
+.pill.yellow{background:var(--warn-soft);color:var(--warn)}
+.pill.green{background:var(--good-soft);color:var(--good)}
+.promise{margin-top:20px;display:grid;gap:12px}
+.promise div{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
+.promise b{font-family:var(--serif);font-size:1.2rem;color:var(--amber);line-height:1.4}
+.note{font-size:.8rem;color:var(--muted);margin-top:14px}
+
+/* 体系说明 / 看板 */
+.sec{margin-top:28px}
+.sec h2{font-size:1.25rem;margin-bottom:12px}
+.timeline{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.timeline li{display:grid;grid-template-columns:34px 1fr;gap:12px;position:relative;padding-bottom:18px}
+.timeline li::before{content:"";position:absolute;left:16px;top:30px;bottom:0;width:2px;background:var(--line)}
+.timeline li:last-child::before{display:none}
+.timeline .dot{width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:700;font-size:.9rem}
+.timeline h3{font-size:1.05rem}
+.timeline p{margin:2px 0 0;color:var(--muted);font-size:.92rem}
+.tag{display:inline-block;font-size:.75rem;padding:1px 8px;border-radius:999px;background:var(--amber-soft);color:var(--warn);margin-left:6px;vertical-align:2px;font-family:var(--sans);font-weight:600}
+.loop{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.loop div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 6px;text-align:center;font-size:.85rem}
+.loop div b{display:block;font-family:var(--serif);font-size:1rem;color:var(--accent)}
+@media (max-width:420px){.loop{grid-template-columns:1fr 1fr}.loop div:last-child{grid-column:1/-1}}
+.sla{width:100%;border-collapse:collapse;font-size:.9rem}
+.sla th,.sla td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.sla th{color:var(--muted);font-weight:600;font-size:.8rem;letter-spacing:.06em}
+.scroll{overflow-x:auto}
+ul.plain{margin:0;padding-left:1.2em;display:grid;gap:6px}
+
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px}
+.kpi .k{font-size:.8rem;color:var(--muted);letter-spacing:.04em}
+.kpi .v{font-family:var(--serif);font-size:2rem;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.2}
+.kpi .s{font-size:.78rem;color:var(--muted)}
+.bars{display:grid;gap:10px}
+.barrow{display:grid;grid-template-columns:9em 1fr 3em;gap:10px;align-items:center;font-size:.88rem}
+.barrow .lbl{min-width:0;overflow-wrap:anywhere}
+.barrow .track{height:14px;background:var(--accent-soft);border-radius:999px;overflow:hidden}
+.barrow .fill{height:100%;background:var(--accent);border-radius:999px}
+.barrow .num{text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)}
+.stack{display:flex;height:22px;border-radius:999px;overflow:hidden;background:var(--line)}
+.stack div{height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.82rem;color:var(--muted);margin-top:8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.tickets{display:grid;gap:8px}
+.tk{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;display:grid;gap:4px;font-size:.9rem}
+.tk .h{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.tk .h code{font-family:ui-monospace,Menlo,monospace;font-size:.82rem;color:var(--muted)}
+.tabs{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--surface);margin-top:14px}
+.tabs button{border:0;background:transparent;border-radius:999px;padding:6px 14px;font-size:.88rem;min-height:36px}
+.tabs button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.demo{display:inline-block;margin-top:8px;font-size:.8rem;color:var(--warn);background:var(--warn-soft);padding:2px 10px;border-radius:999px}
+
+/* 海报 */
+.poster{background:var(--surface);border-radius:20px;border:1px solid var(--line);padding:22px;display:grid;gap:16px}
+.poster h1{font-size:1.9rem;line-height:1.25}
+.qrs{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.qrbox{display:grid;gap:8px;justify-items:center;text-align:center}
+.qrbox .code{width:100%;max-width:220px;aspect-ratio:1;background:#fff;border-radius:12px;padding:8px;border:1px solid var(--line)}
+.qrbox .code svg{width:100%;height:100%;display:block}
+.qrbox b{font-family:var(--serif);font-size:1.05rem}
+.qrbox span{font-size:.82rem;color:var(--muted)}
+.url{font-family:ui-monospace,Menlo,monospace;font-size:.78rem;color:var(--muted);overflow-wrap:anywhere}
+
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+.pulse circle{animation:press 2.4s ease-in-out infinite}
+@keyframes press{0%,100%{opacity:.35}50%{opacity:1}}
+.fade{animation:fade .25s ease-out}
+@keyframes fade{from{opacity:.4;transform:translateY(6px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#" id="home-link" aria-label="稳步 首页">
+      <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><path d="M11 4c4 0 6 4 6 9s-2 8-2 12-2 4-4 4-4-1-4-5 1-6 0-10S7 4 11 4z" fill="var(--accent)"/><path d="M23 9c3 0 4 3 4 7s-2 6-2 9-1 3-3 3-3-1-3-4 1-4 0-7-0-8 4-8z" fill="var(--amber)"/></svg>
+      <span><b>稳步</b><br><small>新老年步态健康守护计划</small></span>
+    </a>
+    <button class="tool" id="speak" type="button" hidden aria-label="朗读本题">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>朗读
+    </button>
+    <button class="tool" id="bigger" type="button" aria-pressed="false" aria-label="放大字号">大字</button>
+  </div>
+</header>
+
+<main id="app" class="wrap"></main>
+<nav class="bar" id="bar" hidden><div class="wrap" id="bar-inner"></div></nav>
+
+<script>
+/* 极简二维码编码器（字节模式，纠错等级 M/Q），算法参照 Nayuki QR Code generator（MIT） */
+(function (root) {
+  var ECC_CW = {
+    M: [-1,10,16,26,18,24,16,18,22,22,26,30,22,22,24,24,28,28,26,26,26,26,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28],
+    Q: [-1,13,22,18,26,18,24,18,22,20,24,28,26,24,20,30,24,28,28,26,30,28,30,30,30,30,28,30,30,30,30,30,30,30,30,30,30,30,30,30,30]
+  };
+  var NUM_BLK = {
+    M: [-1,1,1,1,2,2,4,4,4,5,5,5,8,9,9,10,10,11,13,14,16,17,17,18,20,21,23,25,26,28,29,31,33,35,37,38,40,43,45,47,49],
+    Q: [-1,1,1,2,2,4,4,6,6,8,8,8,10,12,16,12,17,16,18,21,20,23,23,25,27,29,34,34,35,38,40,43,45,48,51,53,56,59,62,65,68]
+  };
+  var FMT = { M: 0, Q: 3 };
+
+  function rawModules(v) {
+    var r = (16 * v + 128) * v + 64;
+    if (v >= 2) { var n = Math.floor(v / 7) + 2; r -= (25 * n - 10) * n - 55; if (v >= 7) r -= 36; }
+    return r;
+  }
+  function dataCW(v, e) { return Math.floor(rawModules(v) / 8) - ECC_CW[e][v] * NUM_BLK[e][v]; }
+  function mul(x, y) { var z = 0; for (var i = 7; i >= 0; i--) { z = (z << 1) ^ ((z >>> 7) * 0x11d); z ^= ((y >>> i) & 1) * x; } return z & 0xff; }
+  function divisor(d) {
+    var r = []; for (var i = 0; i < d - 1; i++) r.push(0); r.push(1);
+    var rt = 1;
+    for (var i = 0; i < d; i++) {
+      for (var j = 0; j < r.length; j++) { r[j] = mul(r[j], rt); if (j + 1 < r.length) r[j] ^= r[j + 1]; }
+      rt = mul(rt, 2);
+    }
+    return r;
+  }
+  function remainder(data, div) {
+    var r = div.map(function () { return 0; });
+    data.forEach(function (b) {
+      var f = b ^ r.shift(); r.push(0);
+      div.forEach(function (c, i) { r[i] ^= mul(c, f); });
+    });
+    return r;
+  }
+  function utf8(s) { return Array.from(unescape(encodeURIComponent(s))).map(function (c) { return c.charCodeAt(0); }); }
+  function bit(x, i) { return ((x >>> i) & 1) !== 0; }
+
+  function encode(text, ecl) {
+    ecl = ecl || 'M';
+    var bytes = utf8(text), ver;
+    for (ver = 1; ver <= 40; ver++) {
+      var cc = ver < 10 ? 8 : 16;
+      if (4 + cc + bytes.length * 8 <= dataCW(ver, ecl) * 8) break;
+    }
+    if (ver > 40) throw new Error('too long');
+    var bb = [];
+    function app(val, len) { for (var i = len - 1; i >= 0; i--) bb.push((val >>> i) & 1); }
+    app(4, 4); app(bytes.length, ver < 10 ? 8 : 16);
+    bytes.forEach(function (b) { app(b, 8); });
+    var cap = dataCW(ver, ecl) * 8;
+    app(0, Math.min(4, cap - bb.length));
+    app(0, (8 - bb.length % 8) % 8);
+    for (var pad = 0xec; bb.length < cap; pad ^= 0xec ^ 0x11) app(pad, 8);
+    var data = [];
+    for (var i = 0; i < bb.length; i += 8) { var v = 0; for (var j = 0; j < 8; j++) v = (v << 1) | bb[i + j]; data.push(v); }
+
+    // 分块、纠错、交织
+    var nb = NUM_BLK[ecl][ver], el = ECC_CW[ecl][ver], raw = Math.floor(rawModules(ver) / 8);
+    var nShort = nb - raw % nb, shortLen = Math.floor(raw / nb), div = divisor(el), blocks = [];
+    for (var i = 0, k = 0; i < nb; i++) {
+      var dat = data.slice(k, k + shortLen - el + (i < nShort ? 0 : 1)); k += dat.length;
+      var ecc = remainder(dat, div);
+      if (i < nShort) dat.push(0);
+      blocks.push(dat.concat(ecc));
+    }
+    var all = [];
+    for (var i = 0; i < blocks[0].length; i++)
+      blocks.forEach(function (b, j) { if (i !== shortLen - el || j >= nShort) all.push(b[i]); });
+
+    var size = ver * 4 + 17, M = [], F = [];
+    for (var y = 0; y < size; y++) { M.push(new Array(size).fill(false)); F.push(new Array(size).fill(false)); }
+    function sf(x, y, d) { M[y][x] = d; F[y][x] = true; }
+
+    for (var i = 0; i < size; i++) { sf(6, i, i % 2 === 0); sf(i, 6, i % 2 === 0); }
+    [[3, 3], [size - 4, 3], [3, size - 4]].forEach(function (p) {
+      for (var dy = -4; dy <= 4; dy++) for (var dx = -4; dx <= 4; dx++) {
+        var d = Math.max(Math.abs(dx), Math.abs(dy)), xx = p[0] + dx, yy = p[1] + dy;
+        if (xx >= 0 && xx < size && yy >= 0 && yy < size) sf(xx, yy, d !== 2 && d !== 4);
+      }
+    });
+    var al = [];
+    if (ver > 1) {
+      var na = Math.floor(ver / 7) + 2, step = ver === 32 ? 26 : Math.ceil((ver * 4 + 4) / (na * 2 - 2)) * 2;
+      al = [6]; for (var pos = size - 7; al.length < na; pos -= step) al.splice(1, 0, pos);
+    }
+    for (var i = 0; i < al.length; i++) for (var j = 0; j < al.length; j++) {
+      if ((i === 0 && j === 0) || (i === 0 && j === al.length - 1) || (i === al.length - 1 && j === 0)) continue;
+      for (var dy = -2; dy <= 2; dy++) for (var dx = -2; dx <= 2; dx++) sf(al[i] + dx, al[j] + dy, Math.max(Math.abs(dx), Math.abs(dy)) !== 1);
+    }
+    function drawFormat(mask) {
+      var d = (FMT[ecl] << 3) | mask, r = d;
+      for (var i = 0; i < 10; i++) r = (r << 1) ^ ((r >>> 9) * 0x537);
+      var b = ((d << 10) | r) ^ 0x5412;
+      for (var i = 0; i <= 5; i++) sf(8, i, bit(b, i));
+      sf(8, 7, bit(b, 6)); sf(8, 8, bit(b, 7)); sf(7, 8, bit(b, 8));
+      for (var i = 9; i < 15; i++) sf(14 - i, 8, bit(b, i));
+      for (var i = 0; i < 8; i++) sf(size - 1 - i, 8, bit(b, i));
+      for (var i = 8; i < 15; i++) sf(8, size - 15 + i, bit(b, i));
+      sf(8, size - 8, true);
+    }
+    drawFormat(0);
+    if (ver >= 7) {
+      var r = ver; for (var i = 0; i < 12; i++) r = (r << 1) ^ ((r >>> 11) * 0x1f25);
+      var b = (ver << 12) | r;
+      for (var i = 0; i < 18; i++) { var bt = bit(b, i), a = size - 11 + i % 3, c = Math.floor(i / 3); sf(a, c, bt); sf(c, a, bt); }
+    }
+    // 放置数据
+    var idx = 0;
+    for (var right = size - 1; right >= 1; right -= 2) {
+      if (right === 6) right = 5;
+      for (var vert = 0; vert < size; vert++) for (var j = 0; j < 2; j++) {
+        var x = right - j, up = ((right + 1) & 2) === 0, y = up ? size - 1 - vert : vert;
+        if (!F[y][x] && idx < all.length * 8) { M[y][x] = bit(all[idx >>> 3], 7 - (idx & 7)); idx++; }
+      }
+    }
+    function maskFn(m, x, y) {
+      switch (m) {
+        case 0: return (x + y) % 2 === 0; case 1: return y % 2 === 0; case 2: return x % 3 === 0;
+        case 3: return (x + y) % 3 === 0; case 4: return (Math.floor(x / 3) + Math.floor(y / 2)) % 2 === 0;
+        case 5: return x * y % 2 + x * y % 3 === 0; case 6: return (x * y % 2 + x * y % 3) % 2 === 0;
+        default: return ((x + y) % 2 + x * y % 3) % 2 === 0;
+      }
+    }
+    function applyMask(m) { for (var y = 0; y < size; y++) for (var x = 0; x < size; x++) if (!F[y][x] && maskFn(m, x, y)) M[y][x] = !M[y][x]; }
+    function penalty() {
+      var p = 0, dark = 0;
+      for (var y = 0; y < size; y++) {
+        var runX = 1, runY = 1;
+        for (var x = 0; x < size; x++) {
+          if (M[y][x]) dark++;
+          if (x > 0) {
+            if (M[y][x] === M[y][x - 1]) { runX++; if (runX === 5) p += 3; else if (runX > 5) p++; } else runX = 1;
+            if (M[x][y] === M[x - 1][y]) { runY++; if (runY === 5) p += 3; else if (runY > 5) p++; } else runY = 1;
+          }
+          if (x < size - 1 && y < size - 1) { var c = M[y][x]; if (c === M[y][x + 1] && c === M[y + 1][x] && c === M[y + 1][x + 1]) p += 3; }
+        }
+      }
+      var total = size * size, k = Math.ceil(Math.abs(dark * 20 - total * 10) / total) - 1;
+      return p + Math.max(0, k) * 10;
+    }
+    var best = 0, bestP = Infinity;
+    for (var m = 0; m < 8; m++) {
+      applyMask(m); drawFormat(m);
+      var pp = penalty(); if (pp < bestP) { bestP = pp; best = m; }
+      applyMask(m);
+    }
+    applyMask(best); drawFormat(best);
+    return { size: size, modules: M, version: ver };
+  }
+
+  function toSVG(text, opts) {
+    opts = opts || {};
+    var q = encode(text, opts.ecl || 'M'), b = opts.border == null ? 2 : opts.border, s = q.size + b * 2, d = '';
+    for (var y = 0; y < q.size; y++) for (var x = 0; x < q.size; x++) if (q.modules[y][x]) d += 'M' + (x + b) + ' ' + (y + b) + 'h1v1h-1z';
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + s + ' ' + s + '" shape-rendering="crispEdges" role="img" aria-label="二维码">' +
+      '<rect width="100%" height="100%" fill="' + (opts.light || '#fff') + '"/><path d="' + d + '" fill="' + (opts.dark || '#000') + '"/></svg>';
+  }
+
+  var api = { encode: encode, toSVG: toSVG };
+  if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.QR = api;
+})(this);
+
+</script>
+<script>
+/* ========== 配置 ==========
+   endpoint：答卷提交地址。留空 = 答卷只保存在填写者手机上（演示）。
+   接入 Formspree 等表单服务后，把地址填在这里即可真实收集，例如 "https://formspree.io/f/xxxxxxx" */
+var CONFIG = { endpoint: "" };
+
+/* ========== 小工具 ========== */
+var $ = function (s, r) { return (r || document).querySelector(s); };
+function h(tag, attrs, kids) {
+  var el = document.createElement(tag);
+  if (attrs) for (var k in attrs) {
+    var v = attrs[k];
+    if (v == null || v === false) continue;
+    if (k === 'class') el.className = v;
+    else if (k === 'html') el.innerHTML = v;
+    else if (k === 'text') el.textContent = v;
+    else if (k.slice(0, 2) === 'on') el.addEventListener(k.slice(2), v);
+    else el.setAttribute(k, v === true ? '' : v);
+  }
+  (kids || []).forEach(function (c) { if (c != null) el.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); });
+  return el;
+}
+function store(k, v) { try { if (v === undefined) return JSON.parse(localStorage.getItem(k)); localStorage.setItem(k, JSON.stringify(v)); } catch (e) { return null; } }
+
+var ICON = {
+  elder: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2.5"/><path d="M12 8v6l-3 7M12 14l3 7M8 11h8"/><path d="M18 12v9"/></svg>',
+  child: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10 18.5h4"/><path d="M9 10.5l2 2 4-4"/></svg>',
+  event: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+  use: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 18c3 0 4-2 6-2s3 2 6 2 4-1 4-1"/><path d="M7 14c0-5 2-10 5-10s5 5 5 10"/></svg>',
+  clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  lock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>',
+  ear: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/></svg>',
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'
+};
+var FOOT = '<svg viewBox="0 0 14 22" aria-hidden="true"><ellipse cx="7" cy="13" rx="4.6" ry="7.5" fill="currentColor"/><circle cx="3.2" cy="3.4" r="1.6" fill="currentColor"/><circle cx="6.6" cy="2.2" r="1.7" fill="currentColor"/><circle cx="10" cy="3.2" r="1.5" fill="currentColor"/></svg>';
+function faceSVG(n) {
+  var m = ['', 'M12 27 Q20 19 28 27', 'M13 26 Q20 22 27 26', 'M13 24.5 L27 24.5', 'M13 22 Q20 28 27 22', 'M12 21 Q20 31 28 21'][n];
+  return '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="20" cy="20" r="17"/><circle cx="14" cy="16" r="1.6" fill="currentColor"/><circle cx="26" cy="16" r="1.6" fill="currentColor"/><path d="' + m + '"/></svg>';
+}
+function insoleSVG() {
+  var path = 'M30 4C44 4 52 20 51 42C50 60 44 70 45 88C46 105 48 120 41 131C36 138 24 138 19 131C12 121 14 105 15 88C16 70 9 59 9 42C8 20 16 4 30 4Z';
+  var dots = '', hot = [[30, 112, 1], [28, 30, 0.9], [40, 34, .8], [18, 36, .6], [36, 70, .35]];
+  for (var y = 10; y < 136; y += 9) for (var x = 10; x < 52; x += 9) {
+    var w = 0; hot.forEach(function (p) { var d = Math.hypot(x - p[0], y - p[1]); w = Math.max(w, p[2] * Math.max(0, 1 - d / 26)); });
+    if (w > .05) dots += '<circle cx="' + x + '" cy="' + y + '" r="' + (1.5 + w * 2.2).toFixed(1) + '" fill="' + (w > .55 ? 'var(--amber)' : 'var(--accent)') + '" style="animation-delay:' + ((136 - y) / 136 * 1.2).toFixed(2) + 's"/>';
+  }
+  function one(flip) {
+    return '<g' + (flip ? ' transform="translate(122 0) scale(-1 1)"' : '') + '><path d="' + path + '" fill="var(--surface)" stroke="var(--accent)" stroke-width="1.6"/><g class="pulse" clip-path="url(#ins)">' + dots + '</g></g>';
+  }
+  return '<svg class="insoles" viewBox="0 0 122 142" role="img" aria-label="鞋垫压力分布示意"><defs><clipPath id="ins"><path d="' + path + '"/></clipPath></defs>' + one(false) + '<g transform="translate(0 4)">' + one(true) + '</g></svg>';
+}
+
+/* ========== 题库 ==========
+   type: face5 满意度表情 / nps 0-10 推荐意愿 / scale5 1-5 量表 / single 单选 / multi 多选 / text 开放题 / contact 回访
+   when: 条件显示（跳转逻辑）；flag: 触发分级工单的选项 → [等级, 工单摘要] */
+var FACE_LABELS = ['很不满意', '不太满意', '一般', '满意', '很满意'];
+var DURATION = { id: 'dur', type: 'single', title: '您（家里）用上「稳步」多久了？', options: ['不到 1 周', '1—4 周', '1 个月以上'] };
+var CONTACT = { id: 'contact', type: 'contact', title: '方便的话，留个电话，我们回访您', sub: '选填。只用于回访这份反馈，不做推销，不转给任何第三方。' };
+
+var QS = {
+  event_elder: [
+    { id: 'e1', type: 'face5', title: '今天体验下来，您整体感觉怎么样？', short: '现场满意度',
+      flag: { 1: ['red', '现场体验很不满意'], 2: ['yellow', '现场体验不太满意'] } },
+    { id: 'e2', type: 'single', title: '鞋垫放进鞋里，走起来感觉如何？', short: '佩戴感',
+      options: ['基本感觉不到', '有一点感觉，但能接受', '不太舒服'], flag: { '不太舒服': ['red', '鞋垫穿着不舒服'] } },
+    { id: 'e3', type: 'single', title: '大屏上显示的走路结果，您看明白了吗？', short: '结果易懂度',
+      options: ['看明白了', '大概明白', '没看明白'] },
+    { id: 'e4', type: 'multi', max: 2, title: '今天哪些环节您觉得最有用？', sub: '最多选 2 项', short: '最有用环节',
+      options: ['试穿鞋垫', '大屏看走路情况', '摔倒提醒演示', '孩子在手机上看报告', '工作人员讲解'] },
+    { id: 'e5', type: 'single', title: '如果每天穿着它出门，您愿意吗？', short: '日常佩戴意愿',
+      options: ['愿意', '看情况', '不太愿意'] },
+    { id: 'e5b', type: 'multi', title: '主要是哪方面的顾虑？', sub: '可多选', short: '佩戴顾虑',
+      when: function (a) { return a.e5 && a.e5 !== '愿意'; },
+      options: ['每天放进鞋里怕麻烦', '穿着不舒服', '担心价格', '担心个人信息', '觉得自己用不上', '不想让人觉得自己老', '其他'] },
+    { id: 'e6', type: 'single', title: '让孩子在手机上看到您的走路情况，您觉得？', short: '数据授权意愿',
+      options: ['挺好，让他们放心', '只在有异常时告诉他们', '不希望他们看到'] },
+    { id: 'e7', type: 'multi', title: '今天现场有没有让您不方便的地方？', sub: '可多选', short: '现场不便', exclusive: '都挺好',
+      options: ['都挺好', '排队等得久', '换鞋、坐的地方不方便', '字太小看不清', '讲解听不明白', '时间太长'] },
+    { id: 'e8', type: 'text', title: '还有什么想跟我们说的？', sub: '选填。不方便打字，可以用手机输入法的语音输入。' },
+    CONTACT
+  ],
+  event_child: [
+    { id: 'c1', type: 'nps', title: '您有多大可能把「稳步」推荐给同样不在父母身边的朋友？', short: '推荐意愿 NPS',
+      flag: { lo: ['yellow', '推荐意愿低（贬损者）'] } },
+    { id: 'c2', type: 'scale5', title: '看完预警演示，您相信父母出状况时，自己能第一时间知道吗？', short: '预警信任度',
+      ends: ['完全不相信', '非常相信'] },
+    { id: 'c3', type: 'multi', max: 2, title: '对您来说，最有价值的是哪些功能？', sub: '最多选 2 项', short: '核心价值',
+      options: ['摔倒、异常即时提醒', '社区驿站 15 分钟上门', '每日「大白话简报」', '长期步态趋势报告'] },
+    { id: 'c4', type: 'single', title: '目前定价是硬件 499 元/双 + 服务 999 元/年。您的感受是？', short: '价格感受',
+      options: ['可以接受', '硬件可以，年费偏高', '硬件偏高，年费可以', '两样都偏高'] },
+    { id: 'c5', type: 'single', title: '您今天的决定是？', short: '购买决定',
+      options: ['已经下单', '回去和父母商量', '再观望一下', '暂时不考虑'], flag: { '暂时不考虑': ['yellow', '明确暂不购买'] } },
+    { id: 'c5b', type: 'multi', title: '让您还在犹豫的原因是？', sub: '可多选', short: '犹豫原因',
+      when: function (a) { return a.c5 && a.c5 !== '已经下单'; },
+      options: ['价格', '父母可能不愿意穿', '担心检测不准、误报', '担心数据隐私', '已有手环等其他设备', '上门服务覆盖不到我家', '其他'] },
+    { id: 'c6', type: 'single', title: '家里买这类产品，通常谁拍板？', short: '购买决策者',
+      options: ['我自己决定', '父母自己决定', '和父母一起商量', '兄弟姐妹一起分摊'] },
+    { id: 'c7', type: 'single', title: '您是从哪里知道这次体验会的？', short: '获知渠道',
+      options: ['社区通知', '小区业主群', '小红书、朋友圈', '父母告诉我', '其他'] },
+    { id: 'c8', type: 'text', title: '对产品或今天的活动，还有什么建议？', sub: '选填' },
+    CONTACT
+  ],
+  use_elder: [
+    DURATION,
+    { id: 'u1', type: 'single', title: '这段时间，您穿得多吗？', short: '佩戴频率',
+      options: ['几乎每天', '一周三四天', '偶尔', '放着没用'], flag: { '放着没用': ['yellow', '已购但闲置'] } },
+    { id: 'u1b', type: 'multi', title: '不常穿的原因是？', sub: '可多选', short: '少穿原因',
+      when: function (a) { return a.u1 === '偶尔' || a.u1 === '放着没用'; },
+      options: ['经常忘记放进鞋里', '穿着不舒服', '换鞋时拿来拿去麻烦', '觉得没必要', '鞋垫坏了或不好用', '其他'] },
+    { id: 'u2', type: 'scale5', title: '日常用起来（放进鞋里、换鞋、平时打理）费劲吗？', short: '使用费力度 CES',
+      ends: ['非常费劲', '非常省心'] },
+    { id: 'u3', type: 'single', title: '每天的「大白话简报」，您会看吗？', short: '简报使用',
+      options: ['每天看，看得懂', '偶尔看', '看了，但看不懂', '没看过'] },
+    { id: 'u4', type: 'single', title: '有没有出现过「明明没事，却发了提醒」的情况？', short: '误报',
+      options: ['没有', '有过 1 次', '有过好几次'], flag: { '有过好几次': ['red', '多次误报'] } },
+    { id: 'u5', type: 'single', title: '用了之后，自己走路时心里感觉？', short: '心理感受',
+      options: ['更踏实了', '跟以前差不多', '反而更紧张了'], flag: { '反而更紧张了': ['red', '使用后更紧张'] } },
+    { id: 'u6', type: 'single', title: '用过社区驿站的上门服务吗？', short: '上门服务',
+      options: ['没用过', '用过'] },
+    { id: 'u6b', type: 'single', title: '工作人员多久到的？', short: '上门时长',
+      when: function (a) { return a.u6 === '用过'; },
+      options: ['15 分钟内', '15—30 分钟', '30 分钟以上'], flag: { '30 分钟以上': ['red', '上门超时 30 分钟以上'] } },
+    { id: 'u7', type: 'face5', title: '总的来说，您对「稳步」满意吗？', short: '整体满意度',
+      flag: { 1: ['red', '整体很不满意'], 2: ['yellow', '整体不太满意'] } },
+    { id: 'u8', type: 'text', title: '还有什么想跟我们说的？', sub: '选填。可以用手机输入法的语音输入。' },
+    CONTACT
+  ],
+  use_child: [
+    DURATION,
+    { id: 'v1', type: 'nps', title: '您有多大可能把「稳步」推荐给朋友？', short: '推荐意愿 NPS',
+      flag: { lo: ['yellow', '推荐意愿低（贬损者）'] } },
+    { id: 'v2', type: 'single', title: '这段时间，您收到过提醒吗？', short: '提醒情况',
+      options: ['没收到过', '收到过，确实有情况', '收到过，但是误报', '两种都有'] },
+    { id: 'v3', type: 'single', title: '收到提醒后，问题处理得及时吗？', short: '处理及时性',
+      when: function (a) { return a.v2 === '收到过，确实有情况' || a.v2 === '两种都有'; },
+      options: ['很及时', '有点慢', '没处理好'], flag: { '没处理好': ['red', '异常提醒后未妥善处理'] } },
+    { id: 'v4', type: 'single', title: '您多久打开一次 APP 看父母的情况？', short: 'APP 活跃度',
+      options: ['每天', '每周几次', '很少', '几乎不开'] },
+    { id: 'v5', type: 'scale5', title: '用 APP 查看父母的情况，方便吗？', short: 'APP 费力度 CES',
+      ends: ['很不方便', '非常方便'] },
+    { id: 'v6', type: 'single', title: '服务到期后，您续费的可能性有多大？', short: '续费意向',
+      options: ['一定会续', '大概会续', '不确定', '不会续'], flag: { '不会续': ['yellow', '明确不续费'] } },
+    { id: 'v6b', type: 'multi', title: '影响您续费的原因是？', sub: '可多选', short: '不续费原因',
+      when: function (a) { return a.v6 === '不确定' || a.v6 === '不会续'; },
+      options: ['价格', '父母不常穿', '误报太多', '没感觉到价值', '换了别的产品', '其他'] },
+    { id: 'v7', type: 'multi', max: 2, title: '最希望我们先改进哪里？', sub: '最多选 2 项', short: '改进优先级',
+      options: ['检测准确度', '鞋垫舒适度', '简报内容', 'APP 好不好用', '上门响应速度', '价格方案'] },
+    { id: 'v8', type: 'text', title: '还有什么建议？', sub: '选填' },
+    CONTACT
+  ]
+};
+var SET_NAME = { event_elder: '体验会 · 叔叔阿姨卷', event_child: '体验会 · 子女卷', use_elder: '使用回访 · 叔叔阿姨卷', use_child: '使用回访 · 子女卷' };
+
+/* ========== 状态 ========== */
+var S = { role: null, stage: null, answers: {}, idx: 0 };
+function setKey() { return S.stage + '_' + S.role; }
+function visibleQs() { return QS[setKey()].filter(function (q) { return !q.when || q.when(S.answers); }); }
+
+/* ========== 字号 / 朗读 ========== */
+var bigBtn = $('#bigger'), speakBtn = $('#speak');
+function applyBig(on) { document.documentElement.classList.toggle('big', on); bigBtn.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+applyBig(!!store('wenbu_big'));
+bigBtn.onclick = function () { var on = !document.documentElement.classList.contains('big'); applyBig(on); store('wenbu_big', on); };
+var canSpeak = 'speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined';
+var speakText = '';
+speakBtn.onclick = function () {
+  if (!canSpeak || !speakText) return;
+  speechSynthesis.cancel();
+  var u = new SpeechSynthesisUtterance(speakText); u.lang = 'zh-CN'; u.rate = 0.85;
+  speechSynthesis.speak(u);
+};
+function setSpeak(text) { speakText = text || ''; speakBtn.hidden = !(canSpeak && speakText); }
+
+/* ========== 渲染 ========== */
+var app = $('#app'), bar = $('#bar'), barInner = $('#bar-inner');
+function setBar(nodes) { barInner.innerHTML = ''; if (!nodes) { bar.hidden = true; return; } nodes.forEach(function (n) { barInner.appendChild(n); }); bar.hidden = false; }
+function mount(view) { app.innerHTML = ''; view.classList.add('view', 'fade'); app.appendChild(view); window.scrollTo(0, 0); }
+
+function renderWelcome(preset) {
+  if (preset) S.stage = preset;
+  var v = h('section');
+  var hero = h('div', { class: 'hero' }, [
+    h('div', { class: 'hero-top' }, [
+      h('div', null, [h('div', { class: 'eyebrow', text: '用户反馈 · 约 2—3 分钟' }), h('h1', { html: '您的每一句话，<br>都让「稳步」<br>走得更稳' })]),
+      h('div', { html: insoleSVG() }).firstChild
+    ]),
+    h('p', { text: '一屏一题，点一下就能答。字小可以点右上角「大字」，看不清可以点「朗读」。' })
+  ]);
+  v.appendChild(hero);
+
+  var roleBox = h('div', { class: 'pick' }, [h('h2', { text: '请问您是？' })]);
+  [['elder', '叔叔阿姨本人', '我自己穿「稳步」鞋垫'], ['child', '子女 / 家属', '我在手机上关注父母']].forEach(function (r) {
+    roleBox.appendChild(h('button', { class: 'choice', type: 'button', 'aria-pressed': S.role === r[0] ? 'true' : 'false',
+      onclick: function () { S.role = r[0]; renderWelcome(); } }, [
+      h('span', { class: 'ic', html: ICON[r[0]] }), h('span', null, [h('strong', { text: r[1] }), h('span', { text: r[2] })])
+    ]));
+  });
+  v.appendChild(roleBox);
+
+  var stageBox = h('div', { class: 'pick' }, [h('h2', { text: '这次想反馈的是？' })]);
+  var seg = h('div', { class: 'seg' });
+  [['event', '今天的体验会', '现场试穿、看演示'], ['use', '日常使用', '已经用了一段时间']].forEach(function (s) {
+    seg.appendChild(h('button', { class: 'choice', type: 'button', 'aria-pressed': S.stage === s[0] ? 'true' : 'false',
+      onclick: function () { S.stage = s[0]; renderWelcome(); } }, [
+      h('span', { class: 'ic', html: ICON[s[0]] }), h('strong', { text: s[1] }), h('span', { text: s[2] })
+    ]));
+  });
+  stageBox.appendChild(seg);
+  v.appendChild(stageBox);
+
+  v.appendChild(h('div', { class: 'meta' }, [
+    h('span', { html: ICON.clock + '9—12 题，约 2—3 分钟' }),
+    h('span', { html: ICON.lock + '不填姓名，电话选填' }),
+    h('span', { html: ICON.ear + '支持朗读与大字' })
+  ]));
+  v.appendChild(h('div', { class: 'links' }, [
+    h('a', { href: '#system', text: '这套反馈体系是怎么运转的' }),
+    h('a', { href: '#board', text: '反馈看板（示例）' }),
+    h('a', { href: '#poster', text: '二维码海报' })
+  ]));
+  mount(v);
+  setSpeak('您好，欢迎填写稳步用户反馈。请先选择您是叔叔阿姨本人，还是子女家属；再选择反馈今天的体验会，还是日常使用。');
+  var ready = S.role && S.stage;
+  setBar([h('button', { class: 'btn', type: 'button', disabled: !ready, text: ready ? '开始填写' : '请先完成上面两项选择',
+    onclick: function () { S.answers = {}; S.idx = 0; renderQuestion(); } })]);
+}
+
+function stepsBar(cur, total) {
+  var wrap = h('div', { class: 'steps', 'aria-hidden': 'true' });
+  for (var i = 0; i < total; i++) { var d = h('span', { html: FOOT }).firstChild; d.classList.add(i < cur ? 'on' : (i === cur ? 'cur' : 'x')); wrap.appendChild(d); }
+  return wrap;
+}
+
+function isAnswered(q) {
+  var a = S.answers[q.id];
+  if (q.type === 'text') return true;
+  if (q.type === 'contact') return a && (a.ok === false || (a.ok === true && /^1\d{10}$/.test(a.phone || '')));
+  if (q.type === 'multi') return a && a.length > 0;
+  return a != null;
+}
+
+function renderQuestion() {
+  var list = visibleQs();
+  if (S.idx >= list.length) return finish();
+  var q = list[S.idx], v = h('section');
+  v.appendChild(stepsBar(S.idx, list.length));
+  v.appendChild(h('div', { class: 'count', text: SET_NAME[setKey()] + ' · 第 ' + (S.idx + 1) + ' 题 / 共 ' + list.length + ' 题' }));
+  v.appendChild(h('h1', { class: 'q-title', id: 'qt', text: q.title }));
+  if (q.sub && q.type !== 'contact') v.appendChild(h('p', { class: 'q-sub', text: q.sub }));
+  var next = h('button', { class: 'btn', type: 'button', text: S.idx === list.length - 1 ? '提交' : '下一题', onclick: go });
+  function refresh() { next.disabled = !isAnswered(q); }
+  function go() { if (!isAnswered(q)) return; S.idx++; renderQuestion(); }
+  function autoGo() { refresh(); setTimeout(go, 280); }
+  var ans = S.answers[q.id], speak = q.title;
+
+  if (q.type === 'single') {
+    var box = h('div', { class: 'opts', role: 'radiogroup', 'aria-labelledby': 'qt' });
+    q.options.forEach(function (o) {
+      box.appendChild(h('button', { class: 'opt', type: 'button', role: 'radio', 'aria-checked': ans === o ? 'true' : 'false',
+        onclick: function () { S.answers[q.id] = o; [].forEach.call(box.children, function (b) { b.setAttribute('aria-checked', b === this ? 'true' : 'false'); }, this); autoGo(); } },
+        [h('span', { class: 'box' }), o]));
+    });
+    v.appendChild(box); speak += '。选项有：' + q.options.join('；');
+  }
+  if (q.type === 'multi') {
+    var sel = (ans || []).slice(), mbox = h('div', { class: 'opts', role: 'group', 'aria-labelledby': 'qt' });
+    function paint() {
+      [].forEach.call(mbox.children, function (b) {
+        var o = b.dataset.v, on = sel.indexOf(o) > -1;
+        b.setAttribute('aria-checked', on ? 'true' : 'false');
+        b.disabled = !on && q.max && sel.length >= q.max;
+      });
+      S.answers[q.id] = sel.slice(); refresh();
+    }
+    q.options.forEach(function (o) {
+      mbox.appendChild(h('button', { class: 'opt multi', type: 'button', role: 'checkbox', 'data-v': o, 'aria-checked': 'false',
+        onclick: function () {
+          var i = sel.indexOf(o);
+          if (i > -1) sel.splice(i, 1);
+          else if (q.exclusive && o === q.exclusive) sel = [o];
+          else { if (q.exclusive) sel = sel.filter(function (x) { return x !== q.exclusive; }); sel.push(o); }
+          paint();
+        } }, [h('span', { class: 'box' }), o]));
+    });
+    v.appendChild(mbox); setTimeout(paint); speak += '。' + (q.sub || '') + '。选项有：' + q.options.join('；');
+  }
+  if (q.type === 'face5') {
+    var fbox = h('div', { class: 'faces', role: 'radiogroup', 'aria-labelledby': 'qt' });
+    for (var n = 1; n <= 5; n++) (function (n) {
+      fbox.appendChild(h('button', { class: 'face', type: 'button', role: 'radio', 'aria-checked': ans === n ? 'true' : 'false', 'aria-label': FACE_LABELS[n - 1],
+        onclick: function () { S.answers[q.id] = n; [].forEach.call(fbox.children, function (b, i) { b.setAttribute('aria-checked', i === n - 1 ? 'true' : 'false'); }); autoGo(); } },
+        [h('span', { html: faceSVG(n) }).firstChild, FACE_LABELS[n - 1]]));
+    })(n);
+    v.appendChild(fbox); speak += '。从很不满意到很满意，共五个表情，点一个就行。';
+  }
+  if (q.type === 'nps') {
+    var nbox = h('div', { class: 'nps', role: 'radiogroup', 'aria-labelledby': 'qt' });
+    for (var n = 0; n <= 10; n++) (function (n) {
+      nbox.appendChild(h('button', { type: 'button', role: 'radio', 'aria-checked': ans === n ? 'true' : 'false', text: String(n),
+        onclick: function () { S.answers[q.id] = n; [].forEach.call(nbox.children, function (b, i) { b.setAttribute('aria-checked', i === n ? 'true' : 'false'); }); autoGo(); } }));
+    })(n);
+    v.appendChild(nbox); v.appendChild(h('div', { class: 'ends' }, [h('span', { text: '0 = 完全不会' }), h('span', { text: '10 = 一定会' })]));
+    speak += '。请从 0 到 10 打分，0 是完全不会，10 是一定会。';
+  }
+  if (q.type === 'scale5') {
+    var sbox = h('div', { class: 'scale', role: 'radiogroup', 'aria-labelledby': 'qt' });
+    for (var n = 1; n <= 5; n++) (function (n) {
+      sbox.appendChild(h('button', { type: 'button', role: 'radio', 'aria-checked': ans === n ? 'true' : 'false', text: String(n),
+        onclick: function () { S.answers[q.id] = n; [].forEach.call(sbox.children, function (b, i) { b.setAttribute('aria-checked', i === n - 1 ? 'true' : 'false'); }); autoGo(); } }));
+    })(n);
+    v.appendChild(sbox); v.appendChild(h('div', { class: 'ends' }, [h('span', { text: '1 = ' + q.ends[0] }), h('span', { text: '5 = ' + q.ends[1] })]));
+    speak += '。从 1 到 5 打分，1 是' + q.ends[0] + '，5 是' + q.ends[1] + '。';
+  }
+  if (q.type === 'text') {
+    var ta = h('textarea', { id: 'ta-' + q.id, 'aria-labelledby': 'qt', maxlength: '500', placeholder: '想到什么写什么，一句话也行' });
+    ta.value = ans || ''; ta.oninput = function () { S.answers[q.id] = ta.value.trim(); };
+    v.appendChild(ta); speak += '。' + q.sub;
+  }
+  if (q.type === 'contact') {
+    var c = ans || {}, cbox = h('div', { class: 'opts', role: 'radiogroup', 'aria-labelledby': 'qt' });
+    var form = h('div', { hidden: c.ok !== true });
+    var phone = h('input', { type: 'tel', id: 'phone', inputmode: 'numeric', maxlength: '11', placeholder: '11 位手机号', autocomplete: 'tel' });
+    var callname = h('input', { type: 'text', id: 'callname', maxlength: '10', placeholder: '如：王阿姨、李先生' });
+    var err = h('div', { class: 'err', 'aria-live': 'polite' });
+    phone.value = c.phone || ''; callname.value = c.name || '';
+    function sync() {
+      var p = phone.value.replace(/\D/g, ''); phone.value = p;
+      S.answers[q.id] = { ok: true, phone: p, name: callname.value.trim() };
+      err.textContent = p.length === 11 && !/^1\d{10}$/.test(p) ? '手机号格式不对，请再看一下' : '';
+      refresh();
+    }
+    phone.oninput = sync; callname.oninput = sync;
+    [['愿意，请回访我', true], ['不用了，谢谢', false]].forEach(function (o) {
+      cbox.appendChild(h('button', { class: 'opt', type: 'button', role: 'radio', 'aria-checked': c.ok === o[1] ? 'true' : 'false',
+        onclick: function () {
+          [].forEach.call(cbox.children, function (b) { b.setAttribute('aria-checked', b === this ? 'true' : 'false'); }, this);
+          form.hidden = !o[1];
+          if (o[1]) { sync(); phone.focus(); } else { S.answers[q.id] = { ok: false }; autoGo(); }
+        } }, [h('span', { class: 'box' }), o[0]]));
+    });
+    form.appendChild(h('div', { class: 'field' }, [h('label', { for: 'phone', text: '手机号' }), phone, err]));
+    form.appendChild(h('div', { class: 'field' }, [h('label', { for: 'callname', text: '怎么称呼您（选填）' }), callname]));
+    v.appendChild(q.sub ? h('div', { class: 'privacy', text: q.sub }) : null);
+    v.appendChild(cbox); v.appendChild(form);
+    speak += '。' + q.sub;
+  }
+  mount(v); setSpeak(speak);
+  var back = h('button', { class: 'btn ghost', type: 'button', text: '上一题', onclick: function () { if (S.idx === 0) renderWelcome(); else { S.idx--; renderQuestion(); } } });
+  if (q.type === 'text' && !ans) next.textContent = S.idx === list.length - 1 ? '提交' : '跳过';
+  if (q.type === 'text') ta.addEventListener('input', function () { next.textContent = S.idx === list.length - 1 ? '提交' : (ta.value.trim() ? '下一题' : '跳过'); });
+  refresh(); setBar([back, next]);
+}
+
+/* ========== 分级 ========== */
+function triage(stage, role, answers) {
+  var hits = [], level = 'green';
+  QS[stage + '_' + role].forEach(function (q) {
+    if (!q.flag) return;
+    var a = answers[q.id]; if (a == null) return;
+    var f = q.type === 'nps' ? (a <= 6 ? q.flag.lo : null) : q.flag[a];
+    if (f) { hits.push(f[1]); if (f[0] === 'red') level = 'red'; else if (level !== 'red') level = 'yellow'; }
+  });
+  return { level: level, reasons: hits };
+}
+var LEVEL = { red: ['red', '优先处理', '24 小时内电话回访'], yellow: ['yellow', '重点关注', '72 小时内回访'], green: ['green', '常规', '纳入每周汇总'] };
+
+function finish() {
+  var now = new Date(), t = triage(S.stage, S.role, S.answers);
+  var id = 'WB' + String(now.getMonth() + 1).padStart(2, '0') + String(now.getDate()).padStart(2, '0') + '-' + Math.random().toString(36).slice(2, 6).toUpperCase();
+  var rec = { id: id, ts: now.toISOString(), set: setKey(), stage: S.stage, role: S.role, answers: S.answers, priority: t.level, reasons: t.reasons };
+  var all = store('wenbu_responses') || []; all.push(rec); store('wenbu_responses', all);
+
+  var v = h('section', { class: 'done' });
+  v.appendChild(h('div', { class: 'seal', html: ICON.check }));
+  v.appendChild(h('div', { class: 'eyebrow', text: '提交完成' }));
+  v.appendChild(h('h1', { class: 'q-title', text: S.role === 'elder' ? '谢谢您，叔叔阿姨！' : '感谢您的反馈！' }));
+  var contact = S.answers.contact && S.answers.contact.ok;
+  var lv = LEVEL[t.level];
+  var ticket = h('div', { class: 'ticket' }, [
+    h('div', { class: 'row' }, [h('span', { text: '反馈编号' }), h('code', { text: id })]),
+    h('div', { class: 'row' }, [h('span', { text: '问卷' }), h('span', { text: SET_NAME[setKey()] })]),
+    h('div', { class: 'row' }, [h('span', { text: '处理级别' }), h('span', { class: 'pill ' + lv[0], text: lv[1] })]),
+    h('div', { class: 'row' }, [h('span', { text: '跟进方式' }), h('span', { text: contact ? lv[2] : (t.level === 'green' ? lv[2] : '未留电话，纳入汇总改进') })])
+  ]);
+  v.appendChild(ticket);
+  v.appendChild(h('div', { class: 'promise' }, [
+    h('div', null, [h('b', { text: '1' }), h('span', { text: '您的反馈会进入「稳步」反馈看板，按红、黄、绿三级分派给负责同学。' })]),
+    h('div', null, [h('b', { text: '2' }), h('span', { text: contact ? '我们会按上面的时间给您回电，电话号码只用于这次回访。' : '没有留电话也没关系，您的意见同样会被统计。' })]),
+    h('div', null, [h('b', { text: '3' }), h('span', { text: '每月在社区公告栏和子女群公布一次「您说 · 我们改」，写清楚改了什么、没改的原因。' })])
+  ]));
+  var sent = h('p', { class: 'note', text: '正在提交……' });
+  v.appendChild(sent);
+  mount(v); setSpeak('提交完成，谢谢您。您的反馈编号是 ' + id.split('').join(' '));
+  setBar([
+    h('button', { class: 'btn ghost', type: 'button', text: '替家人再填一份', onclick: function () { S.role = S.role === 'elder' ? 'child' : 'elder'; S.answers = {}; S.idx = 0; renderWelcome(); } }),
+    h('button', { class: 'btn', type: 'button', text: '回到首页', onclick: function () { location.hash = ''; S.answers = {}; renderWelcome(); } })
+  ]);
+  submit(rec).then(function (ok) {
+    sent.textContent = ok ? '已提交成功。' : '当前为演示版：答卷已保存在本机，可在「反馈看板 → 本机答卷」中查看。';
+  });
+}
+function submit(rec) {
+  if (!CONFIG.endpoint || !window.fetch) return Promise.resolve(false);
+  var flat = { 编号: rec.id, 时间: rec.ts, 问卷: SET_NAME[rec.set], 级别: LEVEL[rec.priority][1], 触发: rec.reasons.join('；') };
+  QS[rec.set].forEach(function (q) {
+    var a = rec.answers[q.id]; if (a == null) return;
+    flat[q.id + ' ' + (q.short || q.title)] = q.type === 'contact' ? (a.ok ? a.name + ' ' + a.phone : '不需要') : (Array.isArray(a) ? a.join('、') : a);
+  });
+  return fetch(CONFIG.endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(flat) })
+    .then(function (r) { return r.ok; }).catch(function () { return false; });
+}
+
+/* ========== 体系说明 ========== */
+function renderSystem() {
+  var v = h('section');
+  v.appendChild(h('div', { class: 'eyebrow', text: '反馈体系' }));
+  v.appendChild(h('h1', { class: 'q-title', text: '四个触点，一条闭环' }));
+  v.appendChild(h('p', { class: 'q-sub', text: '「稳步」的使用者（老人）和付费者（子女）不是同一个人，所以每个触点都分两份问卷，各问各最清楚的事。' }));
+
+  var tl = h('ol', { class: 'timeline' });
+  [['1', '体验会现场', '现场码', '签约区和出口处立牌扫码。老人卷、子女卷各 9—10 题；志愿者可协助代填。验证：愿不愿意穿、看不看得懂、子女愿不愿意付费。'],
+   ['2', '到手第 7 天', '包装卡片码', '鞋垫包装内附卡片，子女 APP 同步推送。重点看：有没有坚持穿、费不费劲、有没有误报。'],
+   ['3', '使用第 30 天', '短信 / APP', '同一份使用回访卷再发一次，与第 7 天对比，看习惯有没有养成、上门服务是否兑现 15 分钟承诺。'],
+   ['4', '续费前 30 天', 'APP 推送', '子女卷重点问续费意向和不续费原因，提前一个月挽留。'],
+   ['+', '随时', '一键反馈', '每日「大白话简报」底部常驻反馈入口；出现异常提醒后自动追问一题「这次提醒准吗？」。']
+  ].forEach(function (r) {
+    tl.appendChild(h('li', null, [h('span', { class: 'dot', text: r[0] }), h('div', null, [h('h3', null, [r[1], h('span', { class: 'tag', text: r[2] })]), h('p', { text: r[3] })])]));
+  });
+  v.appendChild(h('div', { class: 'sec' }, [h('h2', { text: '什么时候问' }), tl]));
+
+  var loop = h('div', { class: 'loop' });
+  [['收集', '扫码填写'], ['分级', '自动红黄绿'], ['处理', '按时限跟进'], ['公示', '您说 · 我们改'], ['验证', '下一触点复测']].forEach(function (x) {
+    loop.appendChild(h('div', null, [h('b', { text: x[0] }), x[1]]));
+  });
+  v.appendChild(h('div', { class: 'sec' }, [h('h2', { text: '收上来之后怎么办' }), loop]));
+
+  var tb = h('table', { class: 'sla' }, [
+    h('thead', null, [h('tr', null, [h('th', { text: '级别' }), h('th', { text: '触发条件（举例）' }), h('th', { text: '时限' })])]),
+    h('tbody', null, [
+      h('tr', null, [h('td', null, [h('span', { class: 'pill red', text: '优先' })]), h('td', { text: '鞋垫穿着不舒服；多次误报；上门超过 30 分钟；提醒后未处理好；用后更紧张；很不满意' }), h('td', { text: '24 小时内电话回访' })]),
+      h('tr', null, [h('td', null, [h('span', { class: 'pill yellow', text: '关注' })]), h('td', { text: '推荐意愿 0—6 分；明确不买或不续费；买了闲置不用；不太满意' }), h('td', { text: '72 小时内回访' })]),
+      h('tr', null, [h('td', null, [h('span', { class: 'pill green', text: '常规' })]), h('td', { text: '其余答卷' }), h('td', { text: '每周汇总，每月公示' })])
+    ])
+  ]);
+  v.appendChild(h('div', { class: 'sec' }, [h('h2', { text: '分级与时限' }), h('div', { class: 'scroll' }, [tb])]));
+
+  var ul = h('ul', { class: 'plain' });
+  ['一屏一题，单选题点完自动进入下一题；单份 9—12 题（含条件追问），2—3 分钟完成。',
+   '老人卷用表情打分、口语化选项，不出现「衰老」「风险高」等字眼；支持大字与朗读。',
+   '子女卷使用 NPS（推荐意愿）、CES（费力度）等通用指标，便于和同类产品比较。',
+   '条件跳转：只有选了「不太愿意」「还在犹豫」「不常穿」的人，才追问原因，不浪费其他人的时间。',
+   '隐私：不收姓名、身份证，电话选填且只用于回访；子女查看老人数据须老人授权，问卷里也单独问了老人的意愿。'
+  ].forEach(function (t) { ul.appendChild(h('li', { text: t })); });
+  v.appendChild(h('div', { class: 'sec' }, [h('h2', { text: '设计原则' }), ul]));
+  v.appendChild(h('div', { class: 'links' }, [h('a', { href: '#', text: '去填写问卷' }), h('a', { href: '#board', text: '看反馈看板' })]));
+  mount(v); setSpeak(''); setBar(null);
+}
+
+/* ========== 看板 ========== */
+function rng(seed) { return function () { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; }; }
+function sampleData() {
+  var r = rng(20261114), out = [];
+  function pickW(opts, w) { w = w || opts.map(function (_, i) { return Math.max(1, opts.length - i); }); var s = w.reduce(function (a, b) { return a + b; }, 0), x = r() * s; for (var i = 0; i < opts.length; i++) { x -= w[i]; if (x <= 0) return opts[i]; } return opts[opts.length - 1]; }
+  var W = { e2: [9, 5, 1], e3: [7, 5, 2], e5: [7, 5, 2], e6: [5, 6, 2], c4: [5, 6, 2, 2], c5: [5, 7, 4, 2], c6: [4, 2, 7, 2],
+    u1: [8, 5, 5, 2], u3: [6, 5, 2, 2], u4: [9, 3, 1], u5: [8, 5, 1], u6: [7, 3], u6b: [6, 3, 1], v2: [6, 4, 2, 1], v3: [6, 2, 1], v4: [4, 6, 3, 1], v6: [5, 6, 3, 1] };
+  var plan = [['event_elder', 38], ['event_child', 24], ['use_elder', 22], ['use_child', 18]];
+  var day0 = Date.parse('2026-11-14T09:30:00+08:00');
+  plan.forEach(function (p) {
+    for (var k = 0; k < p[1]; k++) {
+      var a = {}, set = p[0];
+      QS[set].forEach(function (q) {
+        if (q.when && !q.when(a)) return;
+        if (q.type === 'face5') a[q.id] = Number(pickW(['1', '2', '3', '4', '5'], [1, 2, 5, 14, 11]));
+        else if (q.type === 'scale5') a[q.id] = Number(pickW(['1', '2', '3', '4', '5'], [1, 2, 6, 12, 8]));
+        else if (q.type === 'nps') a[q.id] = Number(pickW(['3', '5', '6', '7', '8', '9', '10'], [1, 2, 3, 5, 6, 7, 5]));
+        else if (q.type === 'single') a[q.id] = pickW(q.options, W[q.id]);
+        else if (q.type === 'multi') {
+          var n = q.max ? q.max : 1 + Math.floor(r() * 2), s = [];
+          var opts = q.exclusive ? q.options.filter(function (o) { return o !== q.exclusive; }) : q.options;
+          if (q.exclusive && r() < .55) s = [q.exclusive];
+          else for (var j = 0; j < n; j++) { var o = pickW(opts); if (s.indexOf(o) < 0) s.push(o); }
+          a[q.id] = s;
+        } else if (q.type === 'contact') a[q.id] = r() < .45 ? { ok: true, phone: '', name: '' } : { ok: false };
+      });
+      var st = set.split('_'), t = triage(st[0], st[1], a);
+      var ts = st[0] === 'event' ? day0 + r() * 2 * 3600e3 : day0 + (7 + r() * 23) * 864e5;
+      out.push({ id: 'WB' + (1000 + out.length), ts: new Date(ts).toISOString(), set: set, stage: st[0], role: st[1], answers: a, priority: t.level, reasons: t.reasons });
+    }
+  });
+  return out;
+}
+function count(list, set, id) {
+  var c = {}, n = 0;
+  list.forEach(function (x) {
+    if (x.set !== set) return; var a = x.answers[id]; if (a == null) return; n++;
+    (Array.isArray(a) ? a : [a]).forEach(function (v) { c[v] = (c[v] || 0) + 1; });
+  });
+  return { c: c, n: n };
+}
+function barsBlock(title, res, opts) {
+  var wrap = h('div', { class: 'sec' }, [h('h2', { text: title })]);
+  if (!res.n) { wrap.appendChild(h('p', { class: 'q-sub', text: '还没有数据。' })); return wrap; }
+  var rows = opts.map(function (o) { return [o, res.c[o] || 0]; }).sort(function (a, b) { return b[1] - a[1]; });
+  var max = Math.max.apply(null, rows.map(function (r) { return r[1]; })) || 1, b = h('div', { class: 'bars' });
+  rows.forEach(function (r) {
+    b.appendChild(h('div', { class: 'barrow' }, [h('span', { class: 'lbl', text: r[0] }),
+      h('span', { class: 'track' }, [h('span', { class: 'fill', style: 'display:block;width:' + (r[1] / max * 100).toFixed(1) + '%' })]),
+      h('span', { class: 'num', text: Math.round(r[1] / res.n * 100) + '%' })]));
+  });
+  wrap.appendChild(b); wrap.appendChild(h('p', { class: 'hint', text: '基数 ' + res.n + ' 份；百分比为选择该项的人数占比' + (opts.length > 3 ? '，多选题合计可超过 100%' : '') }));
+  return wrap;
+}
+var boardSrc = 'demo';
+function renderBoard() {
+  var local = store('wenbu_responses') || [];
+  var list = boardSrc === 'demo' ? sampleData() : local;
+  var v = h('section');
+  v.appendChild(h('div', { class: 'eyebrow', text: '团队后台' }));
+  v.appendChild(h('h1', { class: 'q-title', text: '「稳步」反馈看板' }));
+  var tabs = h('div', { class: 'tabs', role: 'group', 'aria-label': '数据来源' });
+  [['demo', '示例数据'], ['local', '本机答卷（' + local.length + '）']].forEach(function (t) {
+    tabs.appendChild(h('button', { type: 'button', 'aria-pressed': boardSrc === t[0] ? 'true' : 'false', text: t[1], onclick: function () { boardSrc = t[0]; renderBoard(); } }));
+  });
+  v.appendChild(tabs);
+  v.appendChild(h('div', null, [h('span', { class: 'demo', text: boardSrc === 'demo' ? '示例数据：按 11/14 体验会 40 人规模模拟，仅用于展示看板结构' : '本机答卷：只包含在这台手机上提交的问卷' })]));
+
+  // KPI
+  var nps = [], csat = [], ces = [], wear = { y: 0, n: 0 }, buy = { y: 0, n: 0 };
+  list.forEach(function (x) {
+    var a = x.answers;
+    if (a.c1 != null) nps.push(a.c1); if (a.v1 != null) nps.push(a.v1);
+    if (a.e1 != null) csat.push(a.e1); if (a.u7 != null) csat.push(a.u7);
+    if (a.u2 != null) ces.push(a.u2); if (a.v5 != null) ces.push(a.v5);
+    if (a.u1) { wear.n++; if (a.u1 === '几乎每天') wear.y++; }
+    if (a.c5) { buy.n++; if (a.c5 === '已经下单') buy.y++; }
+  });
+  var pro = nps.filter(function (x) { return x >= 9; }).length, det = nps.filter(function (x) { return x <= 6; }).length, pas = nps.length - pro - det;
+  var npsV = nps.length ? Math.round((pro - det) / nps.length * 100) : null;
+  var sat = csat.length ? Math.round(csat.filter(function (x) { return x >= 4; }).length / csat.length * 100) : null;
+  var cesV = ces.length ? (ces.reduce(function (a, b) { return a + b; }, 0) / ces.length).toFixed(1) : null;
+  function pct(o) { return o.n ? Math.round(o.y / o.n * 100) + '%' : '—'; }
+  var k = h('div', { class: 'kpis' });
+  [['子女 NPS', npsV == null ? '—' : (npsV > 0 ? '+' : '') + npsV, '推荐者占比 − 贬损者占比，n=' + nps.length],
+   ['老人满意率', sat == null ? '—' : sat + '%', '表情打分 4—5 分占比，n=' + csat.length],
+   ['使用省心度 CES', cesV || '—', '1—5 分，越高越省心，n=' + ces.length],
+   ['现场下单率', pct(buy), '子女卷选「已经下单」，n=' + buy.n],
+   ['坚持佩戴率', pct(wear), '使用回访中「几乎每天」穿，n=' + wear.n],
+   ['待处理工单', String(list.filter(function (x) { return x.priority !== 'green'; }).length), '红色 ' + list.filter(function (x) { return x.priority === 'red'; }).length + ' · 黄色 ' + list.filter(function (x) { return x.priority === 'yellow'; }).length]
+  ].forEach(function (x) { k.appendChild(h('div', { class: 'kpi' }, [h('div', { class: 'k', text: x[0] }), h('div', { class: 'v', text: x[1] }), h('div', { class: 's', text: x[2] })])); });
+  v.appendChild(h('div', { class: 'sec' }, [k]));
+
+  if (nps.length) {
+    var st = h('div', { class: 'stack', role: 'img', 'aria-label': '贬损者 ' + det + '，被动者 ' + pas + '，推荐者 ' + pro });
+    [[det, 'var(--bad)'], [pas, 'var(--line)'], [pro, 'var(--good)']].forEach(function (s) { st.appendChild(h('div', { style: 'width:' + (s[0] / nps.length * 100) + '%;background:' + s[1] })); });
+    v.appendChild(h('div', { class: 'sec' }, [h('h2', { text: 'NPS 构成' }), st,
+      h('div', { class: 'legend' }, [h('span', { html: '<i style="background:var(--bad)"></i>贬损 0—6 分 · ' + det }), h('span', { html: '<i style="background:var(--line)"></i>被动 7—8 分 · ' + pas }), h('span', { html: '<i style="background:var(--good)"></i>推荐 9—10 分 · ' + pro })])]));
+  }
+  var q = function (set, id) { return QS[set].filter(function (x) { return x.id === id; })[0]; };
+  v.appendChild(barsBlock('子女为什么还在犹豫', count(list, 'event_child', 'c5b'), q('event_child', 'c5b').options));
+  v.appendChild(barsBlock('价格感受（499 元 + 999 元/年）', count(list, 'event_child', 'c4'), q('event_child', 'c4').options));
+  v.appendChild(barsBlock('老人觉得最有用的环节', count(list, 'event_elder', 'e4'), q('event_elder', 'e4').options));
+  v.appendChild(barsBlock('老人不常穿的原因', count(list, 'use_elder', 'u1b'), q('use_elder', 'u1b').options));
+
+  var tks = list.filter(function (x) { return x.priority !== 'green'; }).sort(function (a, b) { return (a.priority === 'red' ? 0 : 1) - (b.priority === 'red' ? 0 : 1) || (b.ts > a.ts ? 1 : -1); }).slice(0, 6);
+  var tw = h('div', { class: 'tickets' });
+  if (!tks.length) tw.appendChild(h('p', { class: 'q-sub', text: '暂无需要跟进的工单。' }));
+  tks.forEach(function (x) {
+    var lv = LEVEL[x.priority], d = new Date(x.ts);
+    tw.appendChild(h('div', { class: 'tk' }, [
+      h('div', { class: 'h' }, [h('span', { class: 'pill ' + lv[0], text: lv[1] }), h('code', { text: x.id + ' · ' + (d.getMonth() + 1) + '/' + d.getDate() })]),
+      h('div', { text: x.reasons.join('；') }),
+      h('div', { class: 'hint', text: SET_NAME[x.set] + ' · ' + (x.answers.contact && x.answers.contact.ok ? lv[2] : '未留电话，计入汇总') })
+    ]));
+  });
+  v.appendChild(h('div', { class: 'sec' }, [h('h2', { text: '待跟进工单' }), tw]));
+
+  if (boardSrc === 'demo') {
+    var tl = h('ol', { class: 'timeline' });
+    [['改', '大屏结果加语音播报', '起因：「没看明白」占比偏高。下一场体验会起，大屏结果同时由主持人口头解读。'],
+     ['改', '推出「先试 30 天」方案', '起因：子女犹豫原因中「价格」「父母可能不愿意穿」居前。年费改为首月免费试用后再扣。'],
+     ['解释', '15 分钟上门暂不覆盖全市', '起因：部分子女所在小区不在合作驿站范围。在官网公示覆盖小区名单，扩点后通知。']
+    ].forEach(function (r) { tl.appendChild(h('li', null, [h('span', { class: 'dot', text: r[0] }), h('div', null, [h('h3', { text: r[1] }), h('p', { text: r[2] })])])); });
+    v.appendChild(h('div', { class: 'sec' }, [h('h2', { text: '您说 · 我们改（月度公示示例）' }), tl]));
+  }
+  v.appendChild(h('div', { class: 'links' }, [h('a', { href: '#', text: '去填写问卷' }), h('a', { href: '#system', text: '反馈体系说明' })]));
+  mount(v); setSpeak(''); setBar(null);
+}
+
+/* ========== 海报 ========== */
+function renderPoster() {
+  var base = location.href.split('#')[0];
+  var v = h('section');
+  var qrs = h('div', { class: 'qrs' });
+  [['event', '体验会现场码', '今天参加了体验会'], ['use', '使用回访码', '已经用了一段时间']].forEach(function (x) {
+    var url = base + '#' + x[0];
+    qrs.appendChild(h('div', { class: 'qrbox' }, [h('div', { class: 'code', html: QR.toSVG(url, { ecl: 'Q', border: 2, dark: '#16241D' }) }), h('b', { text: x[1] }), h('span', { text: x[2] })]));
+  });
+  v.appendChild(h('div', { class: 'poster' }, [
+    h('div', { class: 'eyebrow', text: '稳步 · 新老年步态健康守护计划' }),
+    h('h1', { html: '扫一扫，<br>说说您的感受' }),
+    h('p', { class: 'q-sub', text: '叔叔阿姨和子女都可以填，约 2—3 分钟。支持大字、朗读，电话选填。' }),
+    qrs,
+    h('div', { class: 'url', text: base })
+  ]));
+  v.appendChild(h('p', { class: 'hint', text: '提示：截图这张海报即可打印或发群。二维码自动指向当前网址，换了网址会自动更新。' }));
+  v.appendChild(h('div', { class: 'links' }, [h('a', { href: '#', text: '回到问卷' })]));
+  mount(v); setSpeak(''); setBar(null);
+}
+
+/* ========== 路由 ========== */
+function route() {
+  if (window.speechSynthesis) try { speechSynthesis.cancel(); } catch (e) {}
+  var hsh = location.hash.replace('#', '');
+  if (hsh === 'system') return renderSystem();
+  if (hsh === 'board') return renderBoard();
+  if (hsh === 'poster') return renderPoster();
+  if (hsh === 'event' || hsh === 'use') return renderWelcome(hsh);
+  renderWelcome();
+}
+window.addEventListener('hashchange', route);
+$('#home-link').addEventListener('click', function (e) { e.preventDefault(); if (location.hash) location.hash = ''; else renderWelcome(); });
+route();
+</script>
+</body>
+</html>
